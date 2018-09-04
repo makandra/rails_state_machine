@@ -1,0 +1,4 @@
+postgresql:
+  database: rails_state_machine_test
+  user:
+  password:

@@ -1,0 +1,9 @@
+mysql:
+  database: rails_state_machine_test
+  username: travis
+  password:
+
+postgresql:
+  database: rails_state_machine_test
+  user: postgres
+  password:
