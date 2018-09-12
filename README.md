@@ -111,6 +111,7 @@ Here is a list with all the available callbacks, listed in the same order in whi
 * `before_validation`
 * `before_save`
 * `after_save`
+* `after_commit`
 
 Example:
 
@@ -128,6 +129,10 @@ event :request_review do
 
   after_save do
     # this callback is chained with existing `after_save` callbacks of the model
+  end
+
+  after_commit do
+   # this callback is chained with existing `after_commit` callbacks of the model
   end
 end
 ```
