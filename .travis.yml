@@ -23,5 +23,5 @@ rvm:
   - 2.5.1
 
 gemfile:
-  - gemfiles/Gemfile.5.1.pg
-  - gemfiles/Gemfile.5.2.pg
+  - Gemfile.5.1.pg
+  - Gemfile.5.2.pg

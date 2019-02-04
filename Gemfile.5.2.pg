@@ -12,4 +12,4 @@ gem 'gemika'
 gem 'database_cleaner'
 
 # Gem under test
-gem 'rails_state_machine', :path => '..'
+gem 'rails_state_machine', :path => '.'

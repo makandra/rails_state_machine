@@ -1,5 +1,5 @@
 PATH
-  remote: ..
+  remote: .
   specs:
     rails_state_machine (0.1.0)
       activerecord
