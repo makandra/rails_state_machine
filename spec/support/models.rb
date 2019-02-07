@@ -1,6 +1,8 @@
 class Parcel < ActiveRecord::Base
   include RailsStateMachine::Model
 
+  has_one :parcel_content, autosave: true
+
   before_validation { callbacks.push('before_validation (model)') }
   before_save { callbacks.push('before_save (model)') }
   after_save { callbacks.push('after_save (model)') }
@@ -12,6 +14,14 @@ class Parcel < ActiveRecord::Base
     state :empty, initial: true
     state :filled
     state :shipped
+
+    event :destroy_content do
+      transitions from: :empty, to: :empty
+
+      after_save do
+        parcel_content&.destroy!
+      end
+    end
 
     event :pack do
       transitions from: :empty, to: :filled
@@ -43,5 +53,15 @@ class Parcel < ActiveRecord::Base
 
   def callbacks
     @callbacks ||= []
+  end
+end
+
+class ParcelContent < ActiveRecord::Base
+  include RailsStateMachine::Model
+
+  belongs_to :parcel
+
+  state_machine do
+    state :empty, initial: true
   end
 end

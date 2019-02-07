@@ -17,4 +17,14 @@ describe RailsStateMachine::StateMachine do
     end
   end
 
+  describe '#destroy_content' do
+    it 'does not crash while accessing the parcel_content association within a state transition' do
+      parcel = Parcel.create!
+      parcel.build_parcel_content.save!
+
+      parcel = Parcel.first
+      expect { parcel.destroy_content! && parcel.reload.parcel_content }.to_not raise_error
+    end
+  end
+
 end

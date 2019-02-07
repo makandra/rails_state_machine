@@ -182,15 +182,20 @@ module RailsStateMachine
             after_save: [],
             after_commit: []
           }
-          @state_event_callbacks[:before_save] << @next_state_machine_event
-          @state_event_callbacks[:after_save] << @next_state_machine_event
-          @state_event_callbacks[:after_commit] << @next_state_machine_event
+          if @next_state_machine_event
+            @state_event_callbacks[:before_save] << @next_state_machine_event
+            @state_event_callbacks[:after_save] << @next_state_machine_event
+            @state_event_callbacks[:after_commit] << @next_state_machine_event
+          end
+
           true
         end
 
         def flush_state_event_callbacks(name)
-          while (event = @state_event_callbacks[name].shift)
-            event.public_send("run_#{name}", self)
+          if @state_event_callbacks
+            while (event = @state_event_callbacks[name].shift)
+              event.public_send("run_#{name}", self)
+            end
           end
         end
 

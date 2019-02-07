@@ -10,4 +10,9 @@ database.rewrite_schema! do
     t.datetime :shipped_at
   end
 
+  create_table :parcel_contents do |t|
+    t.integer :parcel_id
+    t.string :state
+  end
+
 end
