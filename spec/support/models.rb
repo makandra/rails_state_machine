@@ -10,6 +10,9 @@ class Parcel < ActiveRecord::Base
 
   validates :weight, presence: true, if: :filled?
 
+  attr_accessor :force_invalid
+  validates :force_invalid, inclusion: { in: [nil] } # Set to any non-nil value to force an invalid record
+
   state_machine do
     state :empty, initial: true
     state :filled

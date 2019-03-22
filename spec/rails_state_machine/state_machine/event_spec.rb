@@ -1,6 +1,18 @@
 describe RailsStateMachine::StateMachine do
 
+  shared_examples 'validation callbacks' do
+    it 'will not reset/discard a state on a model that did not try to make a state transition' do
+      parcel.force_invalid = true
+
+      expect(parcel.state).to eq('empty')
+      expect(parcel.valid?).to eq(false)
+      expect(parcel.state).to eq('empty')
+    end
+  end
+
   shared_examples 'an invalid record that can not take any transitions' do
+    it_behaves_like 'validation callbacks'
+
     describe '#<event_name>' do
       let(:error_messages) { parcel.errors.messages }
 
@@ -27,6 +39,8 @@ describe RailsStateMachine::StateMachine do
   end
 
   shared_examples 'a valid record that can transition to a new state' do
+    it_behaves_like 'validation callbacks'
+
     describe '#<event_name>' do
       it 'saves the record' do
         expect(parcel.state).to eq('empty')

@@ -204,7 +204,7 @@ module RailsStateMachine
         end
 
         def revert_state
-          self.state = @state_before_state_event
+          self.state = @state_before_state_event if @next_state_machine_event
         end
 
         def prepare_state_event_change(attributes)
