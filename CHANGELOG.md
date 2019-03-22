@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.1.2 2019-03-22
+
+### Compatible changes
+
+- Fix bug where state was set to an older state when making a record invalid after successfully transitioning to a new state.
+
 ## 1.1.1 2019-03-22
 
 ### Compatible changes

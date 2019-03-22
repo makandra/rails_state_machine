@@ -8,6 +8,18 @@ describe RailsStateMachine::StateMachine do
       expect(parcel.valid?).to eq(false)
       expect(parcel.state).to eq('empty')
     end
+
+    it 'will not revert to an older state that was actually left successfully' do
+      expect(parcel.state).to eq('empty')
+      parcel.weight = 1
+      parcel.pack!
+      expect(parcel.state).to eq('filled')
+
+      parcel.force_invalid = true
+
+      expect(parcel.valid?).to eq(false)
+      expect(parcel.state).to eq('filled')
+    end
   end
 
   shared_examples 'an invalid record that can not take any transitions' do

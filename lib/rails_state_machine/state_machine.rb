@@ -127,6 +127,7 @@ module RailsStateMachine
         before_save :register_state_events_for_callbacks
         before_save { flush_state_event_callbacks(:before_save) }
         after_save { flush_state_event_callbacks(:after_save) }
+        after_save :unset_next_state_machine_event
         after_commit { flush_state_event_callbacks(:after_commit) }
       end
     end
