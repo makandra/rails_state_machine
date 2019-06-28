@@ -6,10 +6,6 @@ before_script:
   - psql -c 'create database rails_state_machine_test;' -U postgres
   - mysql -e 'create database IF NOT EXISTS rails_state_machine_test;'
 
-notifications:
-  email:
-    - fail@makandra.de
-
 install:
   # Replace default Travis CI bundler script with a version that doesn't
   # explode when lockfile doesn't match recently bumped version
