@@ -71,39 +71,6 @@ event :request_feedback do
 end
 ```
 
-As an alternative to using `RailsStateMachine::Model` and `state_machine do`, configure the state machine manually. This only adds the `state_machine` to your model, but no `states` or `state_events`.
-
-```ruby
-class YourModel < ApplicationRecord
-  RailsStateMachine::StateMachine.new(self).configure do
-    state :draft, initial: true
-    state :review_pending
-    state :approved
-    state :rejected
-
-    event :request_review do
-      transitions from: [:draft, :rejected], to: :review_pending
-    end
-
-    event :approve do
-      transitions from: :review_pending, to: :approved
-    end
-
-    event :reject do
-      transitions from: :review_pending, to: :rejected
-    end
-  end
-
-  def self.states
-    state_machine.state_names
-  end
-
-  def self.state_events
-    state_machine.event_names
-  end
-end
-```
-
 ## Event callbacks
 
 Here is a list with all the available callbacks, listed in the same order in which they will get called during the respective operations. The callbacks are chained with the existing active record callbacks on the model.
@@ -133,6 +100,47 @@ event :request_review do
 
   after_commit do
    # this callback is chained with existing `after_commit` callbacks of the model
+  end
+end
+```
+
+## Other state attributes and multiple state machines on the same model
+
+To use a state attribute other than the default `state`, pass it to the `.state_machine` method:
+
+```
+state_machine :review_state do
+  # ...
+end
+```
+
+This also allows you to define multiple state machines on the same model. Note that event
+names still ahve to be unique for the whole model.
+
+
+## Taking multiple transitions
+
+You can safely take a second transition inside an after_save callback. All relevant
+callbacks will be run.
+
+```
+state_machine do
+  state :draft, initial: true
+  state :review_pending
+  state :approved
+
+  event :request_review do
+    transitions from: [:draft, :rejected], to: :review_pending
+
+    after_save do
+      if auto_approve?
+        approve
+      end
+    end
+  end
+
+  event :approve do
+    transitions from: :review_pending, to: :approved
   end
 end
 ```
@@ -175,4 +183,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Credits
 
-Arne Hartherz and Emanuel Denzel from [makandra](https://makandra.de/).
+Arne Hartherz, Emanuel Denzel, Tobias Kraze from [makandra](https://makandra.de/).
