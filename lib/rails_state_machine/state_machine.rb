@@ -1,5 +1,7 @@
 module RailsStateMachine
   class StateMachine
+    attr_reader :model
+
     def initialize(model, state_attribute)
       @model = model
       @state_attribute = state_attribute
