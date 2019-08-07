@@ -209,8 +209,8 @@ module RailsStateMachine
         end
 
         def prepare_state_event_change(attributes)
-          if saved_changes?
-            # After calling `save`, ActiveRecord will flag the changes that it just stored as saved.
+          if ActiveRecord::VERSION::STRING <= '5.2' && saved_changes?
+            # After calling `save`, ActiveRecord 5.1 will flag the changes that it just stored as saved.
             # https://github.com/rails/rails/blob/v5.1.4/activerecord/lib/active_record/attribute_methods/dirty.rb#L33-L46
             #
             # When taking multiple state events (e.g. a second event called inside an `after_save` callback) and thus

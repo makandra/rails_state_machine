@@ -127,4 +127,11 @@ describe RailsStateMachine::StateMachine do
     end
   end
 
+  it 'does not lose unsaved changes on models that have been saved before (BUGFIX)' do
+    parcel = Parcel.create!(weight: 1)
+    parcel.weight = 2
+    parcel.pack!
+    expect(parcel.reload.weight).to eq 2
+  end
+
 end

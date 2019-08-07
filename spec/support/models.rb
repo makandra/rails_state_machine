@@ -49,6 +49,8 @@ class Parcel < ActiveRecord::Base
     event :ship do
       transitions from: :filled, to: :shipped
 
+      before_save { weight_was } # trigger deprecation warning in Rails 5.1 without our workaround
+
       after_save { callbacks.push('after_save for ship (state machine)') }
       after_commit { callbacks.push('after_commit for ship (state machine)') }
     end
