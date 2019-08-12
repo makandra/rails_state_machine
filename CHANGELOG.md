@@ -5,6 +5,16 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 
 ## Unreleased
 
+### Breaking changes
+
+-
+
+### Compatible changes
+
+-
+
+## 1.1.3 2019-08-12
+
 ### Compatible changes
 
 - Fix a bug sometimes causing unsaved changes to be lost on state transitions.
