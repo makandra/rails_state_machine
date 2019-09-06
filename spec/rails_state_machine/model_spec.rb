@@ -14,4 +14,16 @@ describe RailsStateMachine::Model do
     end
   end
 
+  describe '.state_machine' do
+    it 'registered necessary callbacks only once (BUGFIX)' do
+      expect(RailsStateMachine::Callbacks).to receive(:included).exactly(:once)
+      class_with_machine = Class.new(ActiveRecord::Base) do
+        include RailsStateMachine::Model
+        state_machine(:foo) {}
+        state_machine(:bar) {}
+      end
+      expect(class_with_machine < RailsStateMachine::Callbacks).to eq true
+    end
+  end
+
 end
