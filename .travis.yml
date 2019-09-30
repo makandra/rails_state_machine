@@ -13,13 +13,21 @@ install:
 
 script: bundle exec rake current_rspec
 
-rvm:
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
-
-gemfile:
-  - Gemfile.5.1.pg
-  - Gemfile.5.2.pg
+matrix:
+  include:
+    - rvm: 2.3.8
+      gemfile: Gemfile.5.1.pg
+    - rvm: 2.4.6
+      gemfile: Gemfile.5.1.pg
+    - rvm: 2.3.8
+      gemfile: Gemfile.5.2.pg
+    - rvm: 2.4.6
+      gemfile: Gemfile.5.2.pg
+    - rvm: 2.5.6
+      gemfile: Gemfile.5.2.pg
+    - rvm: 2.5.6
+      gemfile: Gemfile.6.0.pg
+    - rvm: 2.6.4
+      gemfile: Gemfile.6.0.pg
 
 dist: trusty
