@@ -42,6 +42,37 @@ describe RailsStateMachine::StateMachine do
 
     end
 
+    context 'when `after_save` transitions another state machine' do
+      it 'changes the state correctly' do
+        expect { parcel.payment_succeeds! }.to change { [parcel.reload.state, parcel.payment_state] }.from(['empty', 'pending']).to(['shipped', 'paid'])
+      end
+
+      it 'runs the all callbacks in the correct order' do
+        parcel.payment_succeeds!
+        expect(parcel.callbacks).to eq [
+          'before_validation (model)',
+          'before_save (model)',
+          'before_save for payment_succeeds (state machine)',
+          'after_save (model)',
+          'after_save for payment_succeeds (state machine)',
+          # transitions other machine
+          'before_validation (model)',
+          'before_save (model)',
+          'after_save (model)',
+          'after_save for pack_and_ship (state machine)',
+          # transitions again
+          'before_validation (model)',
+          'before_save (model)',
+          'after_save (model)',
+          'after_save for ship (state machine)',
+          'after_commit for payment_succeeds (state machine)',
+          'after_commit for pack_and_ship (state machine)',
+          'after_commit for ship (state machine)',
+          'after_commit (model)'
+        ]
+      end
+    end
+
   end
 
 end

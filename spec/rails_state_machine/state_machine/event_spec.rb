@@ -71,6 +71,20 @@ describe RailsStateMachine::StateMachine do
         expect(parcel.reload.state).to eq('filled')
       end
     end
+
+    describe '#state_event=' do
+      it 'sets the state but does not save' do
+        parcel.state_event = 'pack'
+        expect(parcel.changed?).to eq true
+        expect(parcel.state).to eq 'filled'
+      end
+
+      it 'will transition on save' do
+        parcel.state_event = 'pack'
+        expect(parcel.save).to eq true
+        expect(parcel.reload.state).to eq('filled')
+      end
+    end
   end
 
   shared_examples 'a valid record that tries to take an invalid transition' do
@@ -132,6 +146,43 @@ describe RailsStateMachine::StateMachine do
     parcel.weight = 2
     parcel.pack!
     expect(parcel.reload.weight).to eq 2
+  end
+
+  context 'for multiple machines' do
+
+    it 'transitions states independently' do
+      parcel = Parcel.create!(weight: 1)
+      expect(parcel.state).to eq 'empty'
+      expect(parcel.payment_state).to eq 'pending'
+
+      expect(parcel.payment_fails).to eq true
+      expect(parcel.state).to eq 'empty'
+      expect(parcel.payment_state).to eq 'failed'
+
+      expect(parcel.pack).to eq true
+      expect(parcel.state).to eq 'filled'
+      expect(parcel.payment_state).to eq 'failed'
+    end
+
+    it 'can transition several machines at the same time' do
+      parcel = Parcel.create!(weight: 1)
+
+      parcel.state_event = 'pack'
+      parcel.payment_state_event = 'payment_fails'
+      expect(parcel.save).to eq true
+
+      expect(parcel.state). to eq 'filled'
+      expect(parcel.payment_state).to eq 'failed'
+    end
+
+    it 'allows one machine to transition another' do
+      parcel = Parcel.create!(weight: 1)
+
+      expect(parcel.payment_succeeds).to eq true
+      expect(parcel.payment_state).to eq 'paid'
+      expect(parcel.state).to eq 'shipped'
+    end
+
   end
 
 end

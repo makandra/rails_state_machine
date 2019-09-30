@@ -56,6 +56,33 @@ class Parcel < ActiveRecord::Base
     end
   end
 
+  state_machine(:payment_state) do
+    state :pending, initial: true
+    state :paid
+    state :failed
+
+    event :payment_succeeds do
+      transitions from: :pending, to: :paid
+
+      before_save do
+        callbacks.push('before_save for payment_succeeds (state machine)')
+      end
+
+      after_save do
+        callbacks.push('after_save for payment_succeeds (state machine)')
+        pack_and_ship
+      end
+
+      after_commit do
+        callbacks.push('after_commit for payment_succeeds (state machine)')
+      end
+    end
+
+    event :payment_fails do
+      transitions from: :pending, to: :failed
+    end
+  end
+
   def callbacks
     @callbacks ||= []
   end

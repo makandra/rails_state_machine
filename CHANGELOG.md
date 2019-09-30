@@ -3,15 +3,17 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
-
-### Breaking changes
-
--
+## Unreleased (might warrant major update)
 
 ### Compatible changes
 
--
+- Added: State machine can now use an attribute other than `state` to represent the machine's state.
+- Added: It is now possible to define multiple state machines on the same model.
+
+### Breaking changes
+
+- Removed: Dropped support for adding a state machine without including `RailsStateMachine::Model`.
+
 
 ## 1.1.3 2019-08-12
 
