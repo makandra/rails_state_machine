@@ -32,3 +32,6 @@ matrix:
       gemfile: Gemfile.6.0.pg
 
 dist: trusty
+
+addons:
+  postgresql: 9.3
