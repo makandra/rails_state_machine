@@ -115,7 +115,7 @@ end
 ```
 
 This also allows you to define multiple state machines on the same model. Note that event
-names still have to be unique for the whole model.
+and state names still have to be unique for the whole model.
 
 
 ## Taking multiple transitions
