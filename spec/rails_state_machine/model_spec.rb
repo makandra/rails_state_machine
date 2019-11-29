@@ -15,7 +15,7 @@ describe RailsStateMachine::Model do
   end
 
   describe '.state_machine' do
-    it 'registered necessary callbacks only once (BUGFIX)' do
+    it 'registers necessary callbacks only once (BUGFIX)' do
       expect(RailsStateMachine::Callbacks).to receive(:included).exactly(:once)
       class_with_machine = Class.new(ActiveRecord::Base) do
         include RailsStateMachine::Model
@@ -24,6 +24,25 @@ describe RailsStateMachine::Model do
       end
       expect(class_with_machine < RailsStateMachine::Callbacks).to eq true
     end
+
+    it 'shows a proper error message when referring to a missing state' do
+      expect {
+        class MyClass < ActiveRecord::Base
+          include RailsStateMachine::Model
+          state_machine do
+            state :start
+            state :end
+            event :finish do
+              transitions from: :beginning, to: :end  # should be :start
+            end
+          end
+        end
+      } .to raise_error(
+        RailsStateMachine::Event::UndefinedStateError,
+        "beginning is not a valid state in the state machine of MyClass"
+      )
+    end
+
   end
 
 end
