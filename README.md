@@ -1,5 +1,4 @@
-# Rails State Machine
-[![Build Status](https://travis-ci.org/makandra/rails_state_machine.svg?branch=master)](https://travis-ci.org/makandra/rails_state_machine)
+# Rails State Machine [![Tests](https://github.com/makandra/rails_state_machine/workflows/Tests/badge.svg)](https://github.com/makandra/rails_state_machine/actions?query=branch:master)
 
 Rails State Machine is a ActiveRecord-bound state machine.
 
@@ -154,7 +153,7 @@ There are tests in `spec`. We only accept PRs with tests. To run tests:
 - Run `bin/setup` to install development dependencies.
 - Run tests using `bundle exec rspec`
 
-We recommend to test large changes against multiple versions of Ruby and multiple dependency sets. Supported combinations are configured in `.travis.yml`. We provide some rake tasks to help with this:
+We recommend to test large changes against multiple versions of Ruby and multiple dependency sets. Supported combinations are configured in `.github/workflows/test.yml`. We provide some rake tasks to help with this:
 
 - Install development dependencies using `bundle matrix:install`
 - Run tests using `bundle matrix:spec`
@@ -175,7 +174,7 @@ If you would like to contribute:
 
 We want to keep this gem leightweight and on topic. If you are unsure whether a change would make it into the gem, open an issue and discuss.
 
-Note that we have configured Travis CI to automatically run tests in all supported Ruby versions and dependency sets after each push. We will only merge pull requests after a green Travis build.
+Note that we have configured GitHub Actions to automatically run tests in all supported Ruby versions and dependency sets after each push. We will only merge pull requests after a green workflow build.
 
 ## License
 
