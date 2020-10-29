@@ -1,0 +1,6 @@
+postgresql:
+  database: rails_state_machine_test
+  host: localhost
+  username: postgres
+  password: postgres
+  port: 5432

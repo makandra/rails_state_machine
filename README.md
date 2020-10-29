@@ -149,7 +149,7 @@ end
 
 There are tests in `spec`. We only accept PRs with tests. To run tests:
 
-- Install Ruby 2.4.4
+- Install Ruby 2.4.6
 - Copy the file `spec/support/database.sample.yml` to `spec/support/database.yml` and enter your PostgreSQL credentials. You can create the database afterwards with `createdb rails_state_machine_test`.
 - Run `bin/setup` to install development dependencies.
 - Run tests using `bundle exec rspec`
