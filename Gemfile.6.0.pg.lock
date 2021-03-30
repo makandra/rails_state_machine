@@ -83,7 +83,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.9.2)
-    mimemagic (0.3.3)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.12.2)
@@ -170,4 +172,4 @@ DEPENDENCIES
   rspec (~> 3.5)
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

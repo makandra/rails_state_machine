@@ -155,8 +155,8 @@ There are tests in `spec`. We only accept PRs with tests. To run tests:
 
 We recommend to test large changes against multiple versions of Ruby and multiple dependency sets. Supported combinations are configured in `.github/workflows/test.yml`. We provide some rake tasks to help with this:
 
-- Install development dependencies using `bundle matrix:install`
-- Run tests using `bundle matrix:spec`
+- Install development dependencies using `rake matrix:install`
+- Run tests using `rake matrix:spec`
 
 You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
