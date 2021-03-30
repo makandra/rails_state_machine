@@ -26,7 +26,7 @@ module RailsStateMachine
 
     def transitions(**options)
       if options.present?
-        add_transitions(options)
+        add_transitions(**options)
       else
         @transitions_by_state_name.values
       end

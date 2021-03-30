@@ -48,7 +48,7 @@ module RailsStateMachine
     private
 
     def state(name, **options)
-      @states_by_name[name] = State.new(name, options)
+      @states_by_name[name] = State.new(name, **options)
     end
 
     def event(name, &block)
