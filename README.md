@@ -59,7 +59,7 @@ A model instance offers these state machine methods:
 - `state_event=` to take a state event, but not save yet. Commonly used for forms where the controller takes a "state_event" param and saves.
 - `state_event` to get the name of the event that will be called
 
-Should you ever need to query the state machine for its states or events, it is accessible via `state_machine` class or instance methods on the model. This is mostly helpful in tests.
+Should you ever need to query the state machine for its states or events, it is accessible via `state_machine` class or instance methods on the model. See [`state_machine.rb`](https://github.com/makandra/rails_state_machine/blob/master/lib/rails_state_machine/state_machine.rb) for a list of available methods. This is mostly helpful in tests.
 
 If you want an event to be available for a different edge in your graph, you may define multiple `transitions` per event:
 
