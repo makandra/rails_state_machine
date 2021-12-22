@@ -130,7 +130,11 @@ module RailsStateMachine
 
       model_module_eval do
         define_method :"#{state_attribute}_event=" do |event_name|
+          @validation_errors ||= {}
           state_machine_state_manager(state_attribute).transition_to(event_name)
+          @validation_errors.delete(:"#{state_attribute}_event")
+        rescue RailsStateMachine::Event::TransitionNotFoundError => e
+          @validation_errors[:"#{state_attribute}_event"] = e.message
         end
 
         define_method :"#{state_attribute}_event" do

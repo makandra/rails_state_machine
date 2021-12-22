@@ -88,15 +88,17 @@ describe RailsStateMachine::StateMachine do
   end
 
   shared_examples 'a valid record that tries to take an invalid transition' do
+    let(:error_messages) { parcel.errors.messages }
+
     describe '#<event_name>' do
       it 'raises an error' do
         expect(parcel.state).to eq('empty')
         expect(parcel.may_ship?).to be(false)
-        expect { parcel.ship }.to raise_error(
-          RailsStateMachine::Event::TransitionNotFoundError,
-          'ship does not transition from empty; defined are [#<struct RailsStateMachine::Event::Transition from=:filled, to=:shipped>]'
-        )
+
+        parcel.ship
+        expect(parcel.valid?).to eq(false)
         expect(parcel.state).to eq('empty')
+        expect(error_messages[:state_event]).to eq('ship does not transition from empty; defined are [#<struct RailsStateMachine::Event::Transition from=:filled, to=:shipped>]')
       end
     end
 
@@ -109,6 +111,20 @@ describe RailsStateMachine::StateMachine do
           'ship does not transition from empty; defined are [#<struct RailsStateMachine::Event::Transition from=:filled, to=:shipped>]'
         )
         expect(parcel.state).to eq('empty')
+      end
+    end
+
+    describe '#state_event=' do
+      it 'sets the state but does not save' do
+        parcel.state_event = 'ship'
+        expect(parcel.changed?).to eq true
+        expect(parcel.state).to eq 'filled'
+      end
+
+      it 'will transition on save' do
+        parcel.state_event = 'ship'
+        expect(parcel.save).to eq true
+        expect(parcel.reload.state).to eq('filled')
       end
     end
   end

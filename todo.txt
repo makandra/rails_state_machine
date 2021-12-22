@@ -1,0 +1,11 @@
+> I would expect the setter of ActiveRecord attributes to always store a value without errors, even when set to an invalid value.
+
+I think the reasoning behind the original implementation was that we don't know what to set the new state to given the exemplary operation `state_event = 'finish_step2`. Should the value of `state` stay `step1`, be nilled or set to an other arbitrary value?
+Typing this out I think we have to keep `state = 'step1'` to avoid further validation errors.
+
+Let's decide on the behavior of various state changing methods:
+1) `state_event=` setter: discussed above, only validation error
+2) `event` method. Currently uses 1), I'd be fine with the same decision.
+3) `event!` bang method. I'd expect this method to throw an error because of its sematic. Currently uses 1), then `save!`s the record.
+
+I [can't just add an error](https://stackoverflow.com/a/13880204) to the model outside of validations as it will be flushed on the next call to `valid?`.

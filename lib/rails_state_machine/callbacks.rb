@@ -20,6 +20,7 @@ module RailsStateMachine
 
       def register_validations(model)
         model.class_eval do
+          before_validation :add_validation_errors
           after_validation :revert_states, if: -> { errors.any? }
         end
       end
@@ -63,6 +64,10 @@ module RailsStateMachine
       state_machine_state_managers.each do |state_manager|
         state_manager.revert
       end
+    end
+
+    def add_validation_errors
+      @validation_errors.each do |attribute, error|
     end
   end
 end
