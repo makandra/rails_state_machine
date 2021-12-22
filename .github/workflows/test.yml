@@ -23,26 +23,27 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - ruby: 2.3.8
-          gemfile: Gemfile.5.1.pg
-        - ruby: 2.4.6
-          gemfile: Gemfile.5.1.pg
-        - ruby: 2.3.8
-          gemfile: Gemfile.5.2.pg
-        - ruby: 2.4.6
-          gemfile: Gemfile.5.2.pg
         - ruby: 2.5.6
           gemfile: Gemfile.5.2.pg
         - ruby: 2.5.6
           gemfile: Gemfile.6.0.pg
+
+        - ruby: 2.6.6
+          gemfile: Gemfile.5.2.pg
         - ruby: 2.6.6
           gemfile: Gemfile.6.0.pg
+
         - ruby: 2.7.2
           gemfile: Gemfile.6.0.pg
         - ruby: 2.7.2
           gemfile: Gemfile.6.1.pg
+        - ruby: 2.7.2
+          gemfile: Gemfile.7.0.pg
+
         - ruby: 3.0.0
           gemfile: Gemfile.6.1.pg
+        - ruby: 3.0.0
+          gemfile: Gemfile.7.0.pg
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
     steps:
