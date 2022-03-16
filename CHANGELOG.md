@@ -10,6 +10,12 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Breaking changes
 
 
+## 2.1.1 2022-03-16
+
+### Compatible changes
+
+- Enabled MFA for RubyGems
+
 ## 2.1.0 2021-03-30
 
 ### Compatible changes
