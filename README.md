@@ -107,7 +107,7 @@ end
 
 To use a state attribute other than the default `state`, pass it to the `.state_machine` method:
 
-```
+```ruby
 state_machine :review_state do
   # ...
 end
@@ -122,7 +122,7 @@ and state names still have to be unique for the whole model.
 You can safely take a second transition inside an after_save callback. All relevant
 callbacks will be run.
 
-```
+```ruby
 state_machine do
   state :draft, initial: true
   state :review_pending
