@@ -7,7 +7,7 @@ module RailsStateMachine
         extend ClassMethods
 
         cattr_accessor :state_machines
-        self.state_machines = {}
+        self.state_machines ||= {}
 
         delegate :state_machine, to: :class
       end

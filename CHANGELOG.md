@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 
 ### Compatible changes
 
+- Fix bug where additional inclusions of `RailsStateMachine::Model` would reset previous defined state machines
+
 ### Breaking changes
 
 

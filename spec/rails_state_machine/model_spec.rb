@@ -45,4 +45,17 @@ describe RailsStateMachine::Model do
 
   end
 
+  it 'does not remove already defined state machines if you include the module again afterwards (BUGFIX)' do
+    class_with_machine = Class.new(ActiveRecord::Base) do
+      include RailsStateMachine::Model
+      state_machine(:foo) {}
+      include RailsStateMachine::Model
+      state_machine(:bar) {}
+    end
+    expect(class_with_machine.state_machines).to have_key(:foo)
+    expect(class_with_machine.state_machines).to have_key(:bar)
+    expect(class_with_machine.state_machines[:foo]).to be_a(RailsStateMachine::StateMachine)
+    expect(class_with_machine.state_machines[:bar]).to be_a(RailsStateMachine::StateMachine)
+  end
+
 end
