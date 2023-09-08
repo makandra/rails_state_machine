@@ -6,6 +6,7 @@ database.rewrite_schema! do
   create_table :parcels do |t|
     t.string :state
     t.string :payment_state
+    t.string :review_state
     t.string :shipment_tracking
     t.integer :weight
     t.datetime :shipped_at

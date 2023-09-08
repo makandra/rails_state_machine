@@ -1,17 +1,25 @@
 module RailsStateMachine
   class StateMachine
-    attr_reader :model
 
-    def initialize(model, state_attribute)
+    StateAlreadyDefinedError = Class.new(StandardError)
+
+    def initialize(model, state_attribute, prefix: '')
       @model = model
       @state_attribute = state_attribute
+      @prefix = prefix
+      @prefix_for_constant_definition = "#{@prefix.upcase}_" if @prefix.present?
+      @prefix_for_method_definition = "#{@prefix.downcase}_" if @prefix.present?
       @states_by_name = {}
       @events_by_name = {}
       build_model_module
     end
 
+    attr_reader :model, :prefix, :prefix_for_constant_definition, :prefix_for_method_definition, :state_attribute
+
     def configure(&block)
       instance_eval(&block)
+
+      check_if_states_already_defined
 
       define_state_methods
       define_state_constants
@@ -74,11 +82,26 @@ module RailsStateMachine
       @model_module.module_eval(&block)
     end
 
+    def check_if_states_already_defined
+      @states_by_name.each do |state_name, _|
+        other_state_machines.each do |state_machine|
+          if state_machine.has_state?(state_name) && state_machine.prefix == prefix
+            raise StateAlreadyDefinedError, "State #{state_name.inspect} has already been defined in the #{state_machine.state_attribute.inspect} state machine. You may use the :prefix option when defining a state machine to avoid that."
+          end
+        end
+      end
+    end
+
+    def other_state_machines
+      model.state_machines.except(@state_attribute).values
+    end
+
     def define_state_methods
       state_attribute = @state_attribute
+      prefix = prefix_for_method_definition
       state_names.each do |state_name|
         model_module_eval do
-          define_method "#{state_name}?" do
+          define_method "#{prefix}#{state_name}?" do
             state_machine_state_manager(state_attribute).state == state_name.to_s
           end
         end
@@ -87,7 +110,7 @@ module RailsStateMachine
 
     def define_state_constants
       state_names.each do |state_name|
-        model_constant("STATE_#{state_name.upcase}", state_name)
+        model_constant("#{@prefix_for_constant_definition}STATE_#{state_name.upcase}", state_name)
       end
     end
 

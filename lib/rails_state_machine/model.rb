@@ -14,8 +14,8 @@ module RailsStateMachine
     end
 
     module ClassMethods
-      def state_machine(state_attribute = DEFAULT_STATE_ATTRIBUTE, &block)
-        state_machine = state_machines[state_attribute] ||= StateMachine.new(self, state_attribute)
+      def state_machine(state_attribute = DEFAULT_STATE_ATTRIBUTE, prefix: '', &block)
+        state_machine = state_machines[state_attribute] ||= StateMachine.new(self, state_attribute, prefix: prefix)
         if block
           include(Callbacks) unless self < Callbacks
           state_machine.configure(&block)

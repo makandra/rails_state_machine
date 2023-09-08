@@ -83,6 +83,11 @@ class Parcel < ActiveRecord::Base
     end
   end
 
+  state_machine(:review_state, prefix: 'review') do
+    state :draft, initial: true
+    state :approved
+  end
+
   def callbacks
     @callbacks ||= []
   end

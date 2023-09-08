@@ -116,6 +116,17 @@ end
 This also allows you to define multiple state machines on the same model. Note that event
 and state names still have to be unique for the whole model.
 
+If you define multiple state machines on the same model, and use state names more than once,
+you must use a prefix to avoid name collisions.
+
+A prefix may be specified by passing the `:prefix` option when declaring your state machine:
+
+```ruby
+state_machine :review_state, prefix: 'some_prefix' do
+  # ...
+end
+```
+
 
 ## Taking multiple transitions
 
