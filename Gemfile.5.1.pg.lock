@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_state_machine (2.1.1)
+    rails_state_machine (2.2.0)
       activerecord
 
 GEM
@@ -146,4 +146,4 @@ DEPENDENCIES
   rspec (~> 3.5)
 
 BUNDLED WITH
-   2.2.3
+   2.3.0

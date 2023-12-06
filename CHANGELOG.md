@@ -4,15 +4,19 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-- Added: State machine can now use the `:prefix` option to avoid name collision if you define multiple state machines 
-  on the same model, and use state names more than once
 
 ### Compatible changes
 
-- Fix bug where additional inclusions of `RailsStateMachine::Model` would reset previous defined state machines
-
 ### Breaking changes
 
+
+## 2.2.0 2023-12-06
+
+### Compatible changes
+
+- Added: State machine can now use the `:prefix` option to avoid name collision if you define multiple state machines
+  on the same model, and use state names more than once
+- Fix bug where additional inclusions of `RailsStateMachine::Model` would reset previous defined state machines
 
 ## 2.1.1 2022-03-16
 
