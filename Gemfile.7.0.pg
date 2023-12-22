@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 # Runtime dependencies
-gem 'rails', '~>7.0.0'
+gem 'rails', '=7.0.1'
 gem 'pg', '> 1.2.3'
+gem 'activerecord', '=7.0.1'
 
 # Development dependencies
 gem 'rspec', '~>3.5'
