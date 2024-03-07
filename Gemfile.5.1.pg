@@ -8,7 +8,7 @@ gem 'pg'
 gem 'rspec', '~>3.5'
 gem 'rake'
 gem 'pry-byebug'
-gem 'gemika'
+gem 'gemika', '>= 0.8.1'
 gem 'database_cleaner'
 
 # Gem under test

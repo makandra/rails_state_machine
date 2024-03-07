@@ -1,7 +1,6 @@
 require 'bundler/setup'
 require 'rails_state_machine'
 require 'gemika'
-require 'pry-byebug'
 
 Dir["#{File.dirname(__FILE__)}/support/*.rb"].sort.each {|f| require f}
 
