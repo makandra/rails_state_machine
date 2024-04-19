@@ -8,7 +8,7 @@ gem 'activerecord', '=7.0.1'
 # Development dependencies
 gem 'rspec', '~>3.5'
 gem 'rake', '> 10.0'
-gem 'pry-byebug'
+gem 'pry'
 gem 'gemika', '>= 0.8.1'
 gem 'database_cleaner'
 
