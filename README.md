@@ -127,6 +127,11 @@ state_machine :review_state, prefix: 'some_prefix' do
 end
 ```
 
+Note: The `prefix` option is designed to apply only to constants and state methods **defined by the gem**.
+
+**State event names** are manually defined by the developer and thus not altered even if the `prefix` 
+option is used. It's advised to review them regarding potential naming collision and clarity when
+ introducing the `prefix` method.
 
 ## Taking multiple transitions
 
