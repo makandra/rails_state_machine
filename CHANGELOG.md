@@ -9,6 +9,59 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 
 ### Breaking changes
 
+- Changed: Setting the `<state_name>_event` to an invalid event adds an error to the attribute instead of raising a `TransitionNotFoundError` error.
+- Changed: Calling `<event_name>` with an invalid event adds an error to the `<state_name>_event` attribute instead of raising a `TransitionNotFoundError` error.
+- Changed: Calling `<event_name>!` with an invalid event adds an error to the `<state_name>_event` attribute an raises a `ActiveRecord::RecordInvalid` error instead of a `TransitionNotFoundError` error.
+- Changed: The `<state_name>_event` type was changed to `ActiveModel::Attributes`.
+- Changed: `#find_event` returns `nil` in case the event is missing, previously it raised a `KeyError` error.
+- Changed: The transition of a `<state_name>_event` is executed in a prepended `before_validation` callback. If the transition is possible, the `<state_attribute>` is changed and the `<state_name>_event` is set to `nil` afterwards. If the transition is not possible, the `<state_attribute>` is not changed and the `<state_name>_event` keeps the set value.
+
+Before:
+
+```ruby
+order.update(state_event: 'finish') # => RailsStateMachine::Event::TransitionNotFoundError
+order.finish # => RailsStateMachine::Event::TransitionNotFoundError
+order.finish! # => RailsStateMachine::Event::TransitionNotFoundError
+```
+
+After:
+
+```ruby
+order.update(state_event: 'finish') # => false (state_event has the error :invalid)
+order.finish # => false (state_event has the error :invalid)
+order.finish! # => ActiveRecord::RecordInvalid (state_event has the error :invalid)
+```
+
+Upgrade examples:
+
+```ruby
+# Before the upgrade you might have rescued RailsStateMachine::Event::TransitionNotFoundError in e.g. a controller
+def update
+  build_user
+  if @user.save
+    flash[:success] = 'User saved!'
+    redirect_to @user
+  else
+    flash.now[:error] = 'User could not be saved!'
+    render(:edit, status: :unprocessable_entity)
+  end
+rescue RailsStateMachine::Event::TransitionNotFoundError
+  flash.now[:error] = 'User could not be saved!'
+  render(:edit, status: :unprocessable_entity)
+end
+
+# After upgrade you can either show a flash message or show an error message in your view for the <state>_event attribute
+def update
+  build_user
+  if @user.save
+    flash[:success] = 'User saved!'
+    redirect_to @user
+  else
+    flash.now[:error] = @user.errors.include?(:state_event) ? 'State event not valid anymore, maybe reload the page?' : 'User could not be saved!'
+    render(:edit, status: :unprocessable_entity)
+  end
+end
+```
 
 ## 2.2.0 2023-12-06
 

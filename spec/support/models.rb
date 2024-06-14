@@ -2,6 +2,7 @@ class Parcel < ActiveRecord::Base
   include RailsStateMachine::Model
 
   has_one :parcel_content, autosave: true
+  attribute :notes
 
   before_validation { callbacks.push('before_validation (model)') }
   before_save { callbacks.push('before_save (model)') }
@@ -9,6 +10,7 @@ class Parcel < ActiveRecord::Base
   after_commit { callbacks.push('after_commit (model)') }
 
   validates :weight, presence: true, if: :filled?
+  validates :notes, absence: true, if: :shipped?
 
   attr_accessor :force_invalid
   validates :force_invalid, inclusion: { in: [nil] } # Set to any non-nil value to force an invalid record
