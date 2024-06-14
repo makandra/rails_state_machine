@@ -26,14 +26,25 @@ describe RailsStateMachine::StateMachine do
     it_behaves_like 'validation callbacks'
 
     describe '#<event_name>' do
-      let(:error_messages) { parcel.errors.messages }
-
       it 'does not save the record' do
         expect(parcel.state).to eq('empty')
         expect(parcel.may_pack?).to be(true)
         expect(parcel.pack).to eq(false)
-        expect(error_messages[:weight]).to include("can't be blank")
+        expect(parcel.errors[:weight]).to contain_exactly("can't be blank")
+        expect(parcel.state_event).to eq('pack')
         expect(parcel.state).to eq('empty')
+      end
+
+      context 'with multiple transitions' do
+        it 'does not save the record and reverts the model to the last valid state with the next state event' do
+          parcel.notes = 'some notes'
+          parcel.weight = 1
+          expect(parcel.may_pack_and_ship?).to be(true)
+          expect(parcel.pack_and_ship).to eq(false)
+          expect(parcel.errors[:notes]).to contain_exactly('must be blank')
+          expect(parcel.state_event).to eq('ship')
+          expect(parcel.state).to eq('filled')
+        end
       end
     end
 
@@ -45,6 +56,7 @@ describe RailsStateMachine::StateMachine do
           ActiveRecord::RecordInvalid,
           "Validation failed: Weight can't be blank"
         )
+        expect(parcel.state_event).to eq('pack')
         expect(parcel.state).to eq('empty')
       end
     end
@@ -59,6 +71,8 @@ describe RailsStateMachine::StateMachine do
         expect(parcel.may_pack?).to be(true)
         expect(parcel.pack).to eq(true)
         expect(parcel.changes).to eq({})
+        expect(parcel.state_event).to eq(nil)
+        expect(parcel.state).to eq('filled')
         expect(parcel.reload.state).to eq('filled')
       end
     end
@@ -68,46 +82,71 @@ describe RailsStateMachine::StateMachine do
         expect(parcel.state).to eq('empty')
         expect(parcel.may_pack?).to be(true)
         expect { parcel.pack! }.not_to raise_error
+        expect(parcel.state_event).to eq(nil)
+        expect(parcel.state).to eq('filled')
         expect(parcel.reload.state).to eq('filled')
       end
     end
 
     describe '#state_event=' do
-      it 'sets the state but does not save' do
+      it 'does not set the state on assignment' do
         parcel.state_event = 'pack'
-        expect(parcel.changed?).to eq true
-        expect(parcel.state).to eq 'filled'
+
+        expect(parcel.state_event).to eq('pack')
+        expect(parcel.state).to eq('empty')
+      end
+
+      it 'sets the state before validation' do
+        parcel.state_event = 'pack'
+        parcel.validate
+
+        expect(parcel.state_event).to eq(nil)
+        expect(parcel.state).to eq('filled')
       end
 
       it 'will transition on save' do
         parcel.state_event = 'pack'
         expect(parcel.save).to eq true
+        expect(parcel.state_event).to eq(nil)
+        expect(parcel.state).to eq('filled')
         expect(parcel.reload.state).to eq('filled')
+      end
+
+      it 'adds an error on the state event if the transition is invalid' do
+        parcel.state_event = 'ship'
+        parcel.save
+
+        expect(parcel.errors[:state_event]).to contain_exactly('is invalid')
+        expect(parcel.state).to eq('empty')
+        expect(parcel.state_event).to eq('ship')
       end
     end
   end
 
   shared_examples 'a valid record that tries to take an invalid transition' do
     describe '#<event_name>' do
-      it 'raises an error' do
+      it 'returns false and adds an error to the state event attribute' do
         expect(parcel.state).to eq('empty')
         expect(parcel.may_ship?).to be(false)
-        expect { parcel.ship }.to raise_error(
-          RailsStateMachine::Event::TransitionNotFoundError,
-          'ship does not transition from empty; defined are [#<struct RailsStateMachine::Event::Transition from=:filled, to=:shipped>]'
-        )
+        expect(parcel.ship).to eq(false)
+
+        expect(parcel.errors[:state_event]).to contain_exactly('is invalid')
+        expect(parcel.state_event).to eq('ship')
         expect(parcel.state).to eq('empty')
       end
     end
 
     describe '#<event_name>!' do
-      it 'raises an error' do
+      it 'raises an error and adds an error to the state event attribute' do
         expect(parcel.state).to eq('empty')
         expect(parcel.may_ship?).to be(false)
         expect { parcel.ship! }.to raise_error(
-          RailsStateMachine::Event::TransitionNotFoundError,
-          'ship does not transition from empty; defined are [#<struct RailsStateMachine::Event::Transition from=:filled, to=:shipped>]'
+          ActiveRecord::RecordInvalid,
+          'Validation failed: State event is invalid'
         )
+
+        expect(parcel.errors[:state_event]).to contain_exactly('is invalid')
+        expect(parcel.state_event).to eq('ship')
         expect(parcel.state).to eq('empty')
       end
     end

@@ -1,6 +1,7 @@
 module RailsStateMachine
   class StateManager
     attr_accessor :next_event, :state_before_state_event
+    attr_reader :state_attribute
 
     def initialize(record, state_machine, state_attribute)
       @record = record
@@ -21,7 +22,10 @@ module RailsStateMachine
     end
 
     def revert
-      self.state = @state_before_state_event if @next_event
+      if @next_event
+        self.state = @state_before_state_event
+        self.state_event = @next_event.name
+      end
     end
 
     def source_state
@@ -32,16 +36,30 @@ module RailsStateMachine
       end
     end
 
-    def transition_to(event_name)
-      @next_event = @state_machine.find_event(event_name)
-      @state_before_state_event = source_state
+    def state_event
+      @record.public_send(:"#{@state_machine.state_attribute}_event")
+    end
 
-      # If the event can not transition from source_state, a TransitionNotFoundError will be raised
-      self.state = @next_event.future_state_name(source_state).to_s
+    def state_event=(value)
+      @record.public_send(:"#{@state_machine.state_attribute}_event=", value)
     end
 
     def transition_allowed_for?(event_name)
-      @state_machine.find_event(event_name).allowed_from?(source_state)
+      !!@state_machine.find_event(event_name)&.allowed_from?(state)
+    end
+
+    def transition_to(event_name)
+      if transition_allowed_for?(event_name)
+        self.state_before_state_event = source_state
+        event = @state_machine.find_event(event_name)
+        self.state = event.future_state_name(state).to_s
+        self.state_event = nil
+        @next_event = event
+
+        true
+      else
+        false
+      end
     end
   end
 end

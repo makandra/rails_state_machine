@@ -26,7 +26,7 @@ module RailsStateMachine
       register_initial_state
 
       define_event_methods
-      define_model_methods
+      define_attributes
     end
 
     def states
@@ -46,7 +46,7 @@ module RailsStateMachine
     end
 
     def find_event(name)
-      @events_by_name.fetch(name.to_sym)
+      @events_by_name[name.to_sym]
     end
 
     def has_state?(name)
@@ -148,17 +148,11 @@ module RailsStateMachine
       end
     end
 
-    def define_model_methods
+    def define_attributes
       state_attribute = @state_attribute
 
-      model_module_eval do
-        define_method :"#{state_attribute}_event=" do |event_name|
-          state_machine_state_manager(state_attribute).transition_to(event_name)
-        end
-
-        define_method :"#{state_attribute}_event" do
-          state_machine_state_manager(state_attribute).next_event&.name
-        end
+      @model.instance_eval do
+        attribute :"#{state_attribute}_event", :string
       end
     end
   end

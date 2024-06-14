@@ -10,6 +10,7 @@ module RailsStateMachine
 
       def register_callbacks(model)
         model.class_eval do
+          before_validation :set_state_from_state_event, prepend: true
           before_validation :run_state_events_before_validation
           before_save :register_state_events_for_callbacks
           before_save { flush_state_event_callbacks(:before_save) }
@@ -21,6 +22,16 @@ module RailsStateMachine
       def register_validations(model)
         model.class_eval do
           after_validation :revert_states, if: -> { errors.any? }
+        end
+      end
+    end
+
+    def set_state_from_state_event
+      state_machine_state_managers.each do |state_manager|
+        next if state_manager.state_event.blank?
+
+        unless state_manager.transition_to(state_manager.state_event)
+          errors.add(:"#{state_manager.state_attribute}_event", :invalid)
         end
       end
     end
