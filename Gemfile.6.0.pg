@@ -7,7 +7,7 @@ gem 'pg'
 # Development dependencies
 gem 'rspec', '~>3.5'
 gem 'rake'
-gem 'pry-byebug'
+gem 'pry'
 gem 'gemika', '>= 0.8.1'
 gem 'database_cleaner'
 
