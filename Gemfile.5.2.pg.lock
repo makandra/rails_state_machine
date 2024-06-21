@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_state_machine (2.2.0)
+    rails_state_machine (3.0.0)
       activerecord
 
 GEM

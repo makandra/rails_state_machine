@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 
 ### Breaking changes
 
+## 3.0.0 2024-06-21
+
+### Breaking changes
+
 - Changed: Setting the `<state_name>_event` to an invalid event adds an error to the attribute instead of raising a `TransitionNotFoundError` error.
 - Changed: Calling `<event_name>` with an invalid event adds an error to the `<state_name>_event` attribute instead of raising a `TransitionNotFoundError` error.
 - Changed: Calling `<event_name>!` with an invalid event adds an error to the `<state_name>_event` attribute an raises a `ActiveRecord::RecordInvalid` error instead of a `TransitionNotFoundError` error.
