@@ -50,7 +50,7 @@ def update
     render(:edit, status: :unprocessable_entity)
   end
 rescue RailsStateMachine::Event::TransitionNotFoundError
-  flash.now[:error] = 'User could not be saved!'
+  flash.now[:error] = 'State event not valid anymore, maybe reload the page?'
   render(:edit, status: :unprocessable_entity)
 end
 
