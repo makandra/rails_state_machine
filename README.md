@@ -1,4 +1,20 @@
-# Rails State Machine [![Tests](https://github.com/makandra/rails_state_machine/workflows/Tests/badge.svg)](https://github.com/makandra/rails_state_machine/actions?query=branch:master)
+<p>
+  <a href="https://makandra.de/">
+    <picture>
+      <source media="(prefers-color-scheme: light)" srcset="media/makandra-with-bottom-margin.light.svg">
+      <source media="(prefers-color-scheme: dark)" srcset="media/makandra-with-bottom-margin.dark.svg">
+      <img align="right" width="25%" alt="makandra" src="media/makandra-with-bottom-margin.light.svg">
+    </picture>
+  </a>
+
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="media/logo.light.shapes.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="media/logo.dark.shapes.svg">
+    <img width="412" alt="Rails State Machine" role="heading" aria-level="1" src="media/logo.light.shapes.svg">
+  </picture>
+</p>
+
+[![Tests](https://github.com/makandra/rails_state_machine/workflows/Tests/badge.svg)](https://github.com/makandra/rails_state_machine/actions?query=branch:master)
 
 Rails State Machine is a ActiveRecord-bound state machine.
 
