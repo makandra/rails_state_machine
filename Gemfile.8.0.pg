@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 # Runtime dependencies
-gem 'rails', '~>7.0.1'
+gem 'rails', '~>8.0.0'
 gem 'pg', '> 1.2.3'
-gem 'activerecord', '~>7.0.1'
+gem 'activerecord', '~>8.0.0'
 
 # Development dependencies
 gem 'rspec', '~>3.5'
@@ -11,7 +11,6 @@ gem 'rake', '> 10.0'
 gem 'pry'
 gem 'gemika', '>= 0.8.1'
 gem 'database_cleaner'
-gem 'nokogiri', '= 1.15'
 
 # Gem under test
 gem 'rails_state_machine', :path => '.'

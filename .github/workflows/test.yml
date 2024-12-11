@@ -9,10 +9,10 @@ name: Tests
     - master
 jobs:
   test_pg:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     services:
       postgres:
-        image: postgres:9.3
+        image: postgres:14.15
         env:
           POSTGRES_PASSWORD: postgres
         options: "--health-cmd pg_isready --health-interval 10s --health-timeout 5s
@@ -44,6 +44,15 @@ jobs:
           gemfile: Gemfile.6.1.pg
         - ruby: 3.2.0
           gemfile: Gemfile.7.0.pg
+        - ruby: 3.2.0
+          gemfile: Gemfile.8.0.pg
+
+        - ruby: 3.3.6
+          gemfile: Gemfile.6.1.pg
+        - ruby: 3.3.6
+          gemfile: Gemfile.7.0.pg
+        - ruby: 3.3.6
+          gemfile: Gemfile.8.0.pg
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
     steps:
