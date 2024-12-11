@@ -11,7 +11,7 @@ gem 'rake', '> 10.0'
 gem 'pry'
 gem 'gemika', '>= 0.8.1'
 gem 'database_cleaner'
-gem 'nokogiri', '= 1.16'
+gem 'nokogiri', '= 1.15'
 
 # Gem under test
 gem 'rails_state_machine', :path => '.'
