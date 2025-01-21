@@ -12,7 +12,12 @@ Gem::Specification.new do |spec|
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/makandra/rails_state_machine'
   spec.license       = 'MIT'
-  spec.metadata      = { 'rubygems_mfa_required' => 'true' }
+  spec.metadata      = {
+    'source_code_uri' => 'https://github.com/makandra/rails_state_machine',
+    'bug_tracker_uri' => 'https://github.com/makandra/rails_state_machine/issues',
+    'changelog_uri' => 'https://github.com/makandra/rails_state_machine/blob/master/CHANGELOG.md',
+    'rubygems_mfa_required' => 'true'
+  }
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
