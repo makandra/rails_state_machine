@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'bigdecimal' # Bundled gem since Ruby 3.4
 gem 'mutex_m' # Bundled gem since Ruby 3.4
 gem 'base64' # Bundled gem since Ruby 3.4
+gem 'ostruct' # Bundled gem since Ruby 3.4
+gem 'benchmark' # Bundled gem since Ruby 3.4
 gem 'logger' # Default gem since Ruby 3.4
 
 # Runtime dependencies
