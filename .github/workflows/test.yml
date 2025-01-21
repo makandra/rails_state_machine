@@ -25,34 +25,47 @@ jobs:
         include:
         - ruby: 2.5.6
           gemfile: Gemfile.5.2.pg
+          bundler: 2.3.0
         - ruby: 2.5.6
           gemfile: Gemfile.6.0.pg
+          bundler: 2.3.11
 
         - ruby: 2.6.6
           gemfile: Gemfile.5.2.pg
+          bundler: 2.3.0
         - ruby: 2.6.6
           gemfile: Gemfile.6.0.pg
+          bundler: 2.3.11
 
         - ruby: 2.7.2
           gemfile: Gemfile.6.0.pg
+          bundler: 2.3.11
         - ruby: 2.7.2
           gemfile: Gemfile.6.1.pg
+          bundler: 2.2.25
         - ruby: 2.7.2
           gemfile: Gemfile.7.0.pg
+          bundler: 2.3.0
 
         - ruby: 3.2.0
           gemfile: Gemfile.6.1.pg
+          bundler: 2.2.25
         - ruby: 3.2.0
           gemfile: Gemfile.7.0.pg
+          bundler: 2.3.0
         - ruby: 3.2.0
           gemfile: Gemfile.8.0.pg
+          bundler: 2.5.23
 
         - ruby: 3.4.1
           gemfile: Gemfile.6.1.pg
+          bundler: 2.2.25
         - ruby: 3.4.1
           gemfile: Gemfile.7.0.pg
+          bundler: 2.3.0
         - ruby: 3.4.1
           gemfile: Gemfile.8.0.pg
+          bundler: 2.5.23
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
     steps:
@@ -67,7 +80,7 @@ jobs:
         PGPASSWORD=postgres psql -c 'create database rails_state_machine_test;' -U postgres -p 5432 -h localhost
     - name: Bundle
       run: |
-        gem install bundler:2.1.4
-        bundle install --no-deployment
+        gem install bundler:${{ matrix.bundler }}
+        bundle _${{ matrix.bundler }}_ install --no-deployment
     - name: Run tests
-      run: bundle exec rspec
+      run: bundle _${{ matrix.bundler }}_ exec rspec
