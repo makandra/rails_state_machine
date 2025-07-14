@@ -6,9 +6,16 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## Unreleased
 
 ### Compatible changes
-- Fix bug where duplicated model instances referenced shared state machine state managers.
+-
 
 ### Breaking changes
+-
+
+## 3.1.1 2025-07-14
+
+### Compatible changes
+
+- Fix duplicated model instances from sharing identical state machine references
 
 ## 3.1.0 2025-01-21
 
