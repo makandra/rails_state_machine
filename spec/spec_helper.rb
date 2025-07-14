@@ -3,9 +3,7 @@ require 'bundler/setup'
 require 'rails_state_machine'
 require 'gemika'
 
-Dir["#{File.dirname(__FILE__)}/support/*.rb"].sort.each {|f| require f}
-
-RSpec::Matchers.define_negated_matcher :not_change, :change
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].sort.each {|f| require f}
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

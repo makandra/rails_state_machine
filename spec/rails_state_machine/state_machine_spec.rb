@@ -35,7 +35,8 @@ describe RailsStateMachine::StateMachine do
     expect(parcel_dup.may_pack?).to be true
     expect(parcel.may_pack?).to be true
 
-    expect { parcel.pack_and_ship! }.to change { parcel.reload.state }.from('empty').to('shipped')
+    expect { parcel.pack_and_ship! }
+      .to change { parcel.reload.state }.from('empty').to('shipped')
       .and not_change { parcel_dup.reload.state }
 
     expect(parcel_dup.may_pack?).to be true
