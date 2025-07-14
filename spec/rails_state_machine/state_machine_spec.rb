@@ -27,4 +27,20 @@ describe RailsStateMachine::StateMachine do
     end
   end
 
+  it 'does use different state machine objects for duplicated records' do
+    parcel = Parcel.create!(weight: 1)
+    parcel_dup = parcel.dup
+    parcel_dup.save!
+
+    expect(parcel_dup.may_pack?).to be true
+    expect(parcel.may_pack?).to be true
+
+    expect { parcel.pack_and_ship! }
+      .to change { parcel.reload.state }.from('empty').to('shipped')
+      .and not_change { parcel_dup.reload.state }
+
+    expect(parcel_dup.may_pack?).to be true
+    expect(parcel.may_pack?).to be false
+  end
+
 end

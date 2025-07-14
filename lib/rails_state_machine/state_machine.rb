@@ -120,6 +120,7 @@ module RailsStateMachine
       return unless initial_state_name
 
       @model.after_initialize do
+        clear_state_machine_state_managers_cache
         manager = state_machine_state_manager(state_attribute)
         if new_record? && !manager.state
           manager.state = initial_state_name
