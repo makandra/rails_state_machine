@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## Unreleased
 
 ### Compatible changes
--
+- Fix error "undefined method `[]' for nil" due to missing code line in previous version
 
 ### Breaking changes
 -
