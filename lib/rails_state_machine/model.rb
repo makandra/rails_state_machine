@@ -36,6 +36,7 @@ module RailsStateMachine
     private
 
     def state_machine_state_manager(state_attribute)
+      @state_machine_state_managers ||= {}
       @state_machine_state_managers[state_attribute] ||= StateManager.new(self, state_machine(state_attribute), state_attribute)
     end
 
