@@ -6,10 +6,15 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## Unreleased
 
 ### Compatible changes
-- Fix error "undefined method `[]' for nil" due to missing code line in previous version
+-
 
 ### Breaking changes
 -
+
+## 3.1.2 2025-08-11
+
+### Compatible changes
+- Fix error "undefined method `[]' for nil" due to missing code line in previous version
 
 ## 3.1.1 2025-07-14
 
