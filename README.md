@@ -191,7 +191,7 @@ We recommend to test large changes against multiple versions of Ruby and multipl
 - Run tests using `rake matrix:spec`
 
   ```sh
-  for version in "2.5.6" "2.6.6" "2.7.2" "3.2.0" "3.4.1"; do rbenv shell $version && bundle install && bundle exec rake matrix:install && bundle exec rake matrix:spec; done
+  for version in "2.5.6" "2.6.6" "2.7.2" "3.2.0" "3.4.1" "4.0.2"; do rbenv shell $version && bundle install && bundle exec rake matrix:install && bundle exec rake matrix:spec; done
   ```
 
 You can also run `bin/console` for an interactive prompt that will allow you to experiment.
