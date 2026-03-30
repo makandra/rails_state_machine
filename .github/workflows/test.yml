@@ -66,6 +66,16 @@ jobs:
         - ruby: 3.4.1
           gemfile: Gemfile.8.0.pg
           bundler: 2.5.23
+
+        - ruby: 4.0.2
+          gemfile: Gemfile.6.1.pg
+          bundler: 2.5.23
+        - ruby: 4.0.2
+          gemfile: Gemfile.7.0.pg
+          bundler: 2.5.23
+        - ruby: 4.0.2
+          gemfile: Gemfile.8.0.pg
+          bundler: 2.5.23
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
     steps:
